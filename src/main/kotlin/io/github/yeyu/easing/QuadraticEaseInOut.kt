@@ -12,8 +12,8 @@ import io.github.yeyu.easing.number.KotlinNumberUtil.plus
 /**
  * A quadratic ease-inout function
  *
- * An ease-in is performed on the first half of the range
- * of `from` to `to`, and an ease-out is performed on the
+ * An ease-in is performed on the first half of the range,
+ * and an ease-out is performed on the
  * second half.
  * */
 class QuadraticEaseInOut<T : Number>(from: T, to: T) : EaseInOut<T> {
