@@ -80,7 +80,7 @@ object KotlinNumberUtil {
         return n
     }
 
-    private operator fun Number.compareTo(other: Number): Int {
+    operator fun Number.compareTo(other: Number): Int {
         val compare = (this - other).toDouble()
         return when {
             compare > 0 -> 1
