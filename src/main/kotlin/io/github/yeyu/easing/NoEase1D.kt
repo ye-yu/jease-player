@@ -1,8 +1,8 @@
 package io.github.yeyu.easing
 
-import io.github.yeyu.easing.interpolator.DoubleInterpolator1D
+import io.github.yeyu.easing.interpolator.GenericInterpolator1D
 
-class NoEase1D(from: Double, to: Double) : Ease {
-    override val interpolator = DoubleInterpolator1D(from, to)
-    override fun next(at: Float): Double = interpolator.next(at)
+class NoEase1D<T: Number>(from: T, to: T) : Ease<T> {
+    override val interpolator = GenericInterpolator1D(from, to)
+    override fun next(at: Float): T = interpolator.next(at)
 }

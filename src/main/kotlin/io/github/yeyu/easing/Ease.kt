@@ -1,8 +1,8 @@
 package io.github.yeyu.easing
 
-import io.github.yeyu.easing.interpolator.DoubleInterpolator1D
+import io.github.yeyu.easing.interpolator.Interpolator
 
-interface Ease {
-    val interpolator: DoubleInterpolator1D
-    fun next(at: Float): Double
+interface Ease<T: Number> {
+    val interpolator: Interpolator<T, Float>
+    fun next(at: Float): T
 }

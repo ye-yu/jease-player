@@ -1,4 +1,9 @@
 package io.github.yeyu.easing
 
-interface EaseInOut: EaseIn, EaseOut {
+import io.github.yeyu.easing.interpolator.Interpolator
+
+interface EaseInOut<T: Number>: EaseIn<T>, EaseOut<T> {
+    override val interpolator: Interpolator<T, Float>
+        get() = throw IllegalAccessError("EaseInOut class has two interpolators.")
+
 }

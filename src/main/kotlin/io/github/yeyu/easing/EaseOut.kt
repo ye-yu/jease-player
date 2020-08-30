@@ -1,10 +1,10 @@
 package io.github.yeyu.easing
 
 import io.github.yeyu.easing.function.Function
-import io.github.yeyu.easing.interpolator.DoubleInterpolator1D
+import io.github.yeyu.easing.interpolator.Interpolator
 
-interface EaseOut : Ease {
+interface EaseOut<T: Number> : Ease<T> {
     val easeOutFunction: Function
-    val easeOutInterpolator1D: DoubleInterpolator1D
+    val easeOutInterpolator1D: Interpolator<T, Float>
         get() = interpolator
 }
