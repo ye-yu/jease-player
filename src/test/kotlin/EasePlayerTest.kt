@@ -1,0 +1,50 @@
+import io.github.yeyu.easing.NoEase1D
+import io.github.yeyu.easing.player.EasePlayer
+import org.junit.Assert
+import org.junit.Test
+
+class EasePlayerTest {
+
+    @Test
+    fun linearDoubleEasePlayerTest() {
+        val from = 0.0
+        val to = 10.0
+        val numberOfFrames = 20
+        val transitionTo = 5.0
+        val tolerance = 0.000015
+        val noEasePlayer = EasePlayer(from, to, numberOfFrames) { f: Double, t: Double -> NoEase1D(f, t) }
+        noEasePlayer.transitionTo = transitionTo
+
+        var n = 1
+        var last = 0.0
+        while(noEasePlayer.hasNext()) {
+            last = noEasePlayer.next()
+            n++
+        }
+
+        Assert.assertEquals(numberOfFrames, n)
+        Assert.assertEquals(transitionTo, last, tolerance)
+    }
+
+    @Test
+    fun linearDoubleTwoWayEasePlayerTest() {
+        val from = 0.0
+        val to = 10.0
+        val numberOfFrames = 20
+        val transitionTo = 5.0
+        val noEasePlayer = EasePlayer(from, to, numberOfFrames) { f: Double, t: Double -> NoEase1D(f, t) }
+        noEasePlayer.transitionTo = 6.0
+
+        var n = 1
+        while(noEasePlayer.hasNext()) {
+            noEasePlayer.next()
+            n++
+        }
+
+        noEasePlayer.transitionTo = transitionTo
+
+        val next = noEasePlayer.next()
+        Assert.assertTrue("$next is not less than 6.0", next < 6.0)
+    }
+
+}
