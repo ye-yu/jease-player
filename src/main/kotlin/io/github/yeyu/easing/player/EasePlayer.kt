@@ -11,14 +11,14 @@ open class EasePlayer<T : Number>(
         private val numberOfFrames: Int,
         private val easeFactory: (T, T) -> Ease<T>): Iterator<T> {
 
-    private lateinit var easeFn: Ease<T>
-    private var current = lower
+    internal lateinit var easeFn: Ease<T>
+    internal var current = lower
     internal var currentFrame = 1
 
     /**
      * @throws IllegalAccessError transitionTo can only be set
      * */
-    var transitionTo: T = lower
+    open var transitionTo: T = lower
         set(value) {
             if (value is Color3C || value is Color4C) field = value
             if (value < lower) throw IllegalArgumentException("Cannot go less than $lower")

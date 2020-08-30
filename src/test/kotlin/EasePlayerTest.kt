@@ -82,4 +82,18 @@ class EasePlayerTest {
         Assert.assertTrue("$next is not more than $from", next > from)
     }
 
+    @Test
+    fun reversingEasePlayerTest() {
+        val from = 0.0
+        val to = 10.0
+        val numberOfFrames = 20
+        val transitionTo = 5.0
+        val noEaseReversingPlayer = RollingEasePlayer(from, to, numberOfFrames) { f: Double, t: Double -> NoEase1D(f, t) }
+        noEaseReversingPlayer.transitionTo = transitionTo
+
+        for(i in 0 until numberOfFrames) noEaseReversingPlayer.next()
+
+        val next = noEaseReversingPlayer.next()
+        Assert.assertTrue("$next is not less than $transitionTo", next < transitionTo)
+    }
 }
