@@ -9,10 +9,10 @@ import io.github.yeyu.easing.number.KotlinNumberUtil.times
 class GenericInterpolator1D<T : Number>(
         private val from: T,
         private val to: T,
-        override val function: Function = LinearFunction) : Interpolator<T, Float> {
-    override fun next(at: Float): T {
+        override val function: Function = LinearFunction) : Interpolator<T> {
+    override fun next(at: Double): T {
         @Suppress("UNCHECKED_CAST")
-        return (from + (to - from) * function.f(at.toDouble())) as T
+        return (from + (to - from) * function.f(at)) as T
     }
 }
 

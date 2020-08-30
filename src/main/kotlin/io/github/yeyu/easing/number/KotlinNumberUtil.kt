@@ -67,9 +67,14 @@ object KotlinNumberUtil {
 
     operator fun Number.div(other: Int): Number {
         return when (this) {
-            is Color3C, is Color4C -> this / other
-            is Long, is Int, is Short, is Byte -> this / other
-            is Double, is Float -> this / other
+            is Color3C -> this / other
+            is Color4C -> this / other
+            is Double -> this / other
+            is Float -> this / other
+            is Long -> this / other
+            is Int -> this / other
+            is Short -> this / other
+            is Byte -> this / other
             else -> throw RuntimeException("Unknown numeric type")
         }
     }

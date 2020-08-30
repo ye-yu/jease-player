@@ -8,7 +8,7 @@ data class CoordinateInterpolator2D(
         private val y1: Double,
         private val x2: Double,
         private val y2: Double,
-        override val function: Function = LinearFunction) : Interpolator<Double, Double> {
+        override val function: Function = LinearFunction) : Interpolator<Double> {
 
     init {
         require(x1 != x2) { "Xs cannot be the same" }

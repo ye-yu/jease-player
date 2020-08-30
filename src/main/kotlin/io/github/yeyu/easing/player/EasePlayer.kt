@@ -31,7 +31,7 @@ open class EasePlayer<T : Number>(
 
     override fun next(): T {
         if (currentFrame == numberOfFrames - 1) throw IndexOutOfBoundsException("There is no next")
-        val selectFrame = if (currentFrame == numberOfFrames - 2) 1.0f else (currentFrame + 1).toFloat() / (numberOfFrames - 1)
+        val selectFrame = if (currentFrame == numberOfFrames - 2) 1.0 else (currentFrame + 1).toDouble() / (numberOfFrames - 1)
         current = easeFn.next(selectFrame)
         currentFrame++
         return current

@@ -5,6 +5,6 @@ import io.github.yeyu.easing.interpolator.Interpolator
 
 interface EaseOut<T: Number> : Ease<T> {
     val easeOutFunction: Function
-    val easeOutInterpolator1D: Interpolator<T, Float>
+    val easeOutInterpolator1D: Interpolator<T>
         get() = interpolator
 }

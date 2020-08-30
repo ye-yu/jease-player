@@ -7,6 +7,6 @@ import io.github.yeyu.easing.interpolator.Interpolator
 
 class QuadraticEaseIn<T: Number>(from: T, to: T) : EaseIn<T> {
     override val easeInFunction: Function = QuadraticFunction
-    override val interpolator: Interpolator<T, Float> = GenericInterpolator1D(from, to, easeInFunction)
-    override fun next(at: Float): T = interpolator.next(at)
+    override val interpolator: Interpolator<T> = GenericInterpolator1D(from, to, easeInFunction)
+    override fun next(at: Double): T = interpolator.next(at)
 }

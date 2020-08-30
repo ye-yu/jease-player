@@ -18,7 +18,7 @@ class InterpolatorTest {
         val to = 18
         val interpolator = IntInterpolator1D(from, to)
 
-        Assert.assertEquals(5, interpolator.next(0.2f))
+        Assert.assertEquals(5, interpolator.next(0.2))
     }
 
 }
