@@ -1,5 +1,6 @@
 import io.github.yeyu.easing.NoEase1D
 import io.github.yeyu.easing.player.EasePlayer
+import io.github.yeyu.easing.player.PersistentEasePlayer
 import org.junit.Assert
 import org.junit.Test
 
@@ -45,6 +46,21 @@ class EasePlayerTest {
 
         val next = noEasePlayer.next()
         Assert.assertTrue("$next is not less than 6.0", next < 6.0)
+    }
+
+    @Test
+    fun persistentEasePlayerTest() {
+        val from = 0.0
+        val to = 10.0
+        val numberOfFrames = 20
+        val transitionTo = 5.0
+        val tolerance = 0.000015
+        val noEasePersistentPlayer = PersistentEasePlayer(from, to, numberOfFrames) { f: Double, t: Double -> NoEase1D(f, t) }
+        noEasePersistentPlayer.transitionTo = transitionTo
+
+        for(i in 0 until numberOfFrames) noEasePersistentPlayer.next()
+
+        Assert.assertEquals(noEasePersistentPlayer.next(), noEasePersistentPlayer.next(), tolerance)
     }
 
 }
