@@ -1,11 +1,28 @@
 package io.github.yeyu.easing.number
 
-import io.github.yeyu.easing.number.KotlinNumberUtil.div
-import io.github.yeyu.easing.number.KotlinNumberUtil.plus
 import io.github.yeyu.easing.type.Color3C
 import io.github.yeyu.easing.type.Color4C
 
+/**
+ * A Kotlin number utility method to perform calculation
+ * for sub-classes of Number.
+ * 
+ * The number is casted with the priority of:
+ *   - Double
+ *   - Float
+ *   - Long
+ *   - Int
+ *   - Short
+ *   - Byte
+ *   - Color (if applicable)
+ * 
+ * in that particular order.
+ * */
 object KotlinNumberUtil {
+    
+    /**
+     * Performs `Number + Number`
+     * */
     operator fun Number.plus(other: Number): Number {
         return when {
             this is Double || other is Double -> this.toDouble() + other.toDouble()
@@ -19,6 +36,9 @@ object KotlinNumberUtil {
         }
     }
 
+    /**
+     * Performs `Number - Number`
+     * */
     operator fun Number.minus(other: Number): Number {
         return when {
             this is Double || other is Double -> this.toDouble() - other.toDouble()
@@ -32,6 +52,9 @@ object KotlinNumberUtil {
         }
     }
 
+    /**
+     * Performs `Number * Number`
+     * */
     operator fun Number.times(other: Number): Number {
         return when {
             this is Color3C -> this * other
@@ -46,6 +69,9 @@ object KotlinNumberUtil {
         }
     }
 
+    /**
+     * Performs `Number / Number`
+     * */
     operator fun Number.div(other: Number): Number {
         return when {
             this is Double || other is Double -> this.toDouble() / other.toDouble()
@@ -58,15 +84,26 @@ object KotlinNumberUtil {
         }
     }
 
+    /**
+     * Performs `Number * Int`
+     * */
     operator fun Number.times(other: Int): Number {
         return when (this) {
-            is Color3C, is Color4C -> this * other
-            is Long, is Int, is Short, is Byte -> this * other
-            is Double, is Float -> this * other
+            is Color3C -> this * other
+            is Color4C -> this * other
+            is Double -> this * other
+            is Float -> this * other
+            is Long -> this * other
+            is Int -> this * other
+            is Short -> this * other
+            is Byte -> this * other
             else -> throw RuntimeException("Unknown numeric type")
         }
     }
 
+    /**
+     * Performs `Number / Int`
+     * */
     operator fun Number.div(other: Int): Number {
         return when (this) {
             is Color3C -> this / other
@@ -81,18 +118,21 @@ object KotlinNumberUtil {
         }
     }
 
-    fun <T: Number> abs(n: T): T {
-        @Suppress("UNCHECKED_CAST")
-        if (n < 0) return (1 - n) as T
-        return n
-    }
-
+    /**
+     * Performs comparison between two number
+     * */
     operator fun Number.compareTo(other: Number): Int {
-        val compare = (this - other).toDouble()
-        return when {
-            compare > 0 -> 1
-            compare < 0 -> -1
-            else -> 0
+        if (other is Comparable<*> && this is Comparable<*>) {
+            return when {
+                this is Double || other is Double -> this.toDouble().compareTo(other.toDouble())
+                this is Float || other is Float -> this.toFloat().compareTo(other.toFloat())
+                this is Long || other is Long -> this.toLong().compareTo(other.toLong())
+                this is Int || other is Int -> this.toInt().compareTo(other.toInt())
+                this is Short || other is Short -> this.toShort().compareTo(other.toShort())
+                this is Byte || other is Byte -> this.toByte().compareTo(other.toByte())
+                else -> throw IllegalArgumentException("Unknown numeric type")
+            }
         }
+        throw IllegalArgumentException("Class does not implement Comparable")
     }
 }

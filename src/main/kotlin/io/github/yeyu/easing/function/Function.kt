@@ -1,6 +1,8 @@
 package io.github.yeyu.easing.function
 
-/* todo: change Double to Number */
+/**
+ * A many-to-one function that map Double to Double
+ * */
 interface Function {
     fun f(x: Double): Double
 }

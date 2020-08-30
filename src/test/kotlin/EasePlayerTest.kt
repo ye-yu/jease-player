@@ -1,6 +1,7 @@
 import io.github.yeyu.easing.NoEase1D
 import io.github.yeyu.easing.player.EasePlayer
 import io.github.yeyu.easing.player.PersistentEasePlayer
+import io.github.yeyu.easing.player.ReversingEasePlayer
 import io.github.yeyu.easing.player.RollingEasePlayer
 import org.junit.Assert
 import org.junit.Test
@@ -17,7 +18,7 @@ class EasePlayerTest {
         val noEasePlayer = EasePlayer(from, to, numberOfFrames) { f: Double, t: Double -> NoEase1D(f, t) }
         noEasePlayer.transitionTo = transitionTo
 
-        var n = 1
+        var n = 0
         var last = 0.0
         while(noEasePlayer.hasNext()) {
             last = noEasePlayer.next()
@@ -34,9 +35,11 @@ class EasePlayerTest {
         val from = 0.0
         val to = 10.0
         val numberOfFrames = 20
+        val transitionMiddle = 6.0
         val transitionTo = 5.0
+        val tolerance = 0.000015
         val noEasePlayer = EasePlayer(from, to, numberOfFrames) { f: Double, t: Double -> NoEase1D(f, t) }
-        noEasePlayer.transitionTo = 6.0
+        noEasePlayer.transitionTo = transitionMiddle
 
         var n = 1
         while(noEasePlayer.hasNext()) {
@@ -46,8 +49,9 @@ class EasePlayerTest {
 
         noEasePlayer.transitionTo = transitionTo
 
+        Assert.assertEquals(transitionMiddle, noEasePlayer.next(), tolerance)
         val next = noEasePlayer.next()
-        Assert.assertTrue("$next is not less than 6.0", next < 6.0)
+        Assert.assertTrue("$next is not less than $transitionMiddle", next < transitionMiddle)
     }
 
     @Test
@@ -88,10 +92,15 @@ class EasePlayerTest {
         val to = 10.0
         val numberOfFrames = 20
         val transitionTo = 5.0
-        val noEaseReversingPlayer = RollingEasePlayer(from, to, numberOfFrames) { f: Double, t: Double -> NoEase1D(f, t) }
+        val tolerance = 0.000015
+        val noEaseReversingPlayer = ReversingEasePlayer(from, to, numberOfFrames) { f: Double, t: Double -> NoEase1D(f, t) }
         noEaseReversingPlayer.transitionTo = transitionTo
 
-        for(i in 0 until numberOfFrames) noEaseReversingPlayer.next()
+        var last = 0.0
+        for(i in 0 until numberOfFrames) {
+            last = noEaseReversingPlayer.next()
+        }
+        Assert.assertEquals(transitionTo, last, tolerance)
 
         val next = noEaseReversingPlayer.next()
         Assert.assertTrue("$next is not less than $transitionTo", next < transitionTo)

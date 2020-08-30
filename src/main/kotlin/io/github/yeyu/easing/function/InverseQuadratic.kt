@@ -1,7 +1,10 @@
 package io.github.yeyu.easing.function
 
 /**
+ * Inverse quadratic of `f(x) = 1 - (1 - x) ^ 2`
+ *
  * Domain: [0, 1]
+ *
  * Range: [0, 1]
  * */
 object InverseQuadratic: Function {
