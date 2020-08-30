@@ -6,6 +6,6 @@ import kotlin.math.round
 
 class IntInterpolator1D(private val from: Int, private val to: Int, override val function: Function = LinearFunction) : Interpolator<Int> {
     override fun next(at: Double): Int {
-        return from + round((from - to).toDouble() * function.f(at)).toInt()
+        return from + round((to - from).toDouble() * function.f(at)).toInt()
     }
 }

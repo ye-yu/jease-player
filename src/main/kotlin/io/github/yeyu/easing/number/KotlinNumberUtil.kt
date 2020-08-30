@@ -34,6 +34,8 @@ object KotlinNumberUtil {
 
     operator fun Number.times(other: Number): Number {
         return when {
+            this is Color3C -> this * other
+            this is Color4C -> this * other
             this is Double || other is Double -> this.toDouble() * other.toDouble()
             this is Float || other is Float -> this.toFloat() * other.toFloat()
             this is Long || other is Long -> this.toLong() * other.toLong()
