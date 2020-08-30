@@ -58,6 +58,16 @@ tasks {
     }
 }
 
+// for publishing to maven central
+artifacts {
+    add("archives", tasks["javadocJar"])
+    add("archives", tasks["sourcesJar"])
+}
+
+signing {
+    sign(configurations.archives.get())
+}
+
 publishing {
     publications {
         create<MavenPublication>("maven") {
@@ -67,30 +77,9 @@ publishing {
             }
         }
 
-        create<MavenPublication>("mavenLocal") {
-            artifacts {
-                version += "-LOCAL"
-
-                artifact(tasks["sourcesJar"])
-                artifact(tasks["javadocJar"])
-            }
-        }
-
         repositories {
             mavenLocal()
         }
-    }
-}
-
-tasks.withType(PublishToMavenLocal::class) {
-    onlyIf {
-        publication == publishing.publications["mavenLocal"]
-    }
-}
-
-tasks.withType(PublishToMavenRepository::class) {
-    onlyIf {
-        publication != publishing.publications["mavenLocal"]
     }
 }
 
