@@ -10,7 +10,7 @@ class PersistentEasePlayer<T : Number>(
 ) : EasePlayer<T>(lower, upper, numberOfFrames, easeFactory) {
 
     override fun next(): T {
-        if (currentFrame >= numberOfFrames) currentFrame = numberOfFrames - 1
+        if (currentFrame == numberOfFrames - 1) currentFrame -= 1 // replay last frame
         return super.next()
     }
 }

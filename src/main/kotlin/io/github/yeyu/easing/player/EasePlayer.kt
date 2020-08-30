@@ -30,16 +30,16 @@ open class EasePlayer<T : Number>(
         get() { throw IllegalAccessError("Accessing private property") }
 
     override fun next(): T {
-        if (currentFrame >= numberOfFrames) throw IndexOutOfBoundsException("There is no next")
-        val selectFrame = if (currentFrame == numberOfFrames - 1) 1.0f else (currentFrame).toFloat() / (numberOfFrames - 1)
+        if (currentFrame == numberOfFrames - 1) throw IndexOutOfBoundsException("There is no next")
+        val selectFrame = if (currentFrame == numberOfFrames - 2) 1.0f else (currentFrame + 1).toFloat() / (numberOfFrames - 1)
         current = easeFn.next(selectFrame)
         currentFrame++
         return current
     }
 
-    override fun hasNext(): Boolean = currentFrame < numberOfFrames
+    override fun hasNext(): Boolean = currentFrame < numberOfFrames - 1
 
     private fun resetFrame() {
-        currentFrame = 1
+        currentFrame = 0
     }
 }
