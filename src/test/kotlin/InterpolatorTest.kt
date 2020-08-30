@@ -32,4 +32,22 @@ class InterpolatorTest {
         Assert.assertEquals(expected, interpolator.next(0.5))
     }
 
+    @Test
+    fun colorInterpolator2Test() {
+        val from = Color3C(0, 50, 0)
+        val to = Color3C(50, 0, 50)
+        val interpolator = GenericInterpolator1D(from, to)
+        val expected = Color3C(25, 25, 25)
+        Assert.assertEquals(expected, interpolator.next(0.5))
+    }
+
+    @Test
+    fun colorInterpolator3Test() {
+        val from = Color3C(0, 50, 30)
+        val to = Color3C(50, 0, 50)
+        val interpolator = GenericInterpolator1D(from, to)
+        val expected = Color3C(25, 25, 40)
+        Assert.assertEquals(expected, interpolator.next(0.5))
+    }
+
 }
