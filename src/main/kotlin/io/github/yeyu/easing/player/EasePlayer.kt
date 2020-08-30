@@ -39,7 +39,7 @@ open class EasePlayer<T : Number>(
 
     override fun hasNext(): Boolean = currentFrame < numberOfFrames - 1
 
-    private fun resetFrame() {
+    internal fun resetFrame() {
         currentFrame = 0
     }
 }

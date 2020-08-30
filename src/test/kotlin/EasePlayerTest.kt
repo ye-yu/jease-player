@@ -1,6 +1,7 @@
 import io.github.yeyu.easing.NoEase1D
 import io.github.yeyu.easing.player.EasePlayer
 import io.github.yeyu.easing.player.PersistentEasePlayer
+import io.github.yeyu.easing.player.RollingEasePlayer
 import org.junit.Assert
 import org.junit.Test
 
@@ -20,6 +21,7 @@ class EasePlayerTest {
         var last = 0.0
         while(noEasePlayer.hasNext()) {
             last = noEasePlayer.next()
+            println("Next of $last")
             n++
         }
 
@@ -61,6 +63,23 @@ class EasePlayerTest {
         for(i in 0 until numberOfFrames) noEasePersistentPlayer.next()
 
         Assert.assertEquals(noEasePersistentPlayer.next(), noEasePersistentPlayer.next(), tolerance)
+    }
+
+    @Test
+    fun rollingEasePlayerTest() {
+        val from = 0.0
+        val to = 10.0
+        val numberOfFrames = 20
+        val transitionTo = 5.0
+        val tolerance = 0.000015
+        val noEaseRollingPlayer = RollingEasePlayer(from, to, numberOfFrames) { f: Double, t: Double -> NoEase1D(f, t) }
+        noEaseRollingPlayer.transitionTo = transitionTo
+
+        for(i in 0 until numberOfFrames) noEaseRollingPlayer.next()
+
+        Assert.assertEquals(from, noEaseRollingPlayer.next(), tolerance)
+        val next = noEaseRollingPlayer.next()
+        Assert.assertTrue("$next is not more than $from", next > from)
     }
 
 }

@@ -2,7 +2,7 @@ package io.github.yeyu.easing.player
 
 import io.github.yeyu.easing.Ease
 
-class PersistentEasePlayer<T : Number>(
+open class PersistentEasePlayer<T : Number>(
         lower: T,
         upper: T,
         private val numberOfFrames: Int,
