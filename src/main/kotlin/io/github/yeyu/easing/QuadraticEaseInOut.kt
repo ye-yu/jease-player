@@ -9,6 +9,13 @@ import io.github.yeyu.easing.number.KotlinNumberUtil.div
 import io.github.yeyu.easing.number.KotlinNumberUtil.minus
 import io.github.yeyu.easing.number.KotlinNumberUtil.plus
 
+/**
+ * A quadratic ease-inout function
+ *
+ * An ease-in is performed on the first half of the range
+ * of `from` to `to`, and an ease-out is performed on the
+ * second half.
+ * */
 class QuadraticEaseInOut<T : Number>(from: T, to: T) : EaseInOut<T> {
     @Suppress("UNCHECKED_CAST")
     private val half: T = (from + (to - from) / 2) as T
