@@ -79,7 +79,7 @@ open class EasePlayer<T : Number>(
     /**
      * Resets the frame back to 0
      * */
-    internal fun resetFrame() {
+    fun resetFrame() {
         currentFrame = 0
     }
 
