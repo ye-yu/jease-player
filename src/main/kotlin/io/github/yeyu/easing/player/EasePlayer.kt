@@ -21,9 +21,20 @@ open class EasePlayer<T : Number>(
     private val easeFactory: (T, T) -> Ease<T>
 ) : Iterator<T> {
 
-    internal lateinit var easeFn: Ease<T>
+    /**
+     * The current ease function
+     * */
+    internal var easeFn: Ease<T> = easeFactory(lower, upper)
+
+    /**
+     * The current interpolated value
+     * */
     internal var current = lower
-    internal var currentFrame = 1
+
+    /**
+     * The current frame
+     * */
+    internal var currentFrame = 0
 
     /**
      * Sets the ease to transit to an intermediate value.

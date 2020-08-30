@@ -185,4 +185,8 @@ class Color3C(private val c1: Int, private val c2: Int, private val c3: Int, all
         result = 31 * result + c3
         return result
     }
+
+    override fun toString(): String {
+        return "Color3C{c1:$c1, c2:$c2, c3: $c3"
+    }
 }

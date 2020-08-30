@@ -167,7 +167,7 @@ class Color4C(private val c1: Int, private val c2: Int, private val c3: Int, pri
     }
 
     override fun toInt(): Int {
-        return c1 shl 16 + c2 shl 8 + c3
+        return c1 shl 24 + c2 shl 16 + c3 shl 8 + c4
     }
 
     @Deprecated("Can only convert to Int")
@@ -193,5 +193,9 @@ class Color4C(private val c1: Int, private val c2: Int, private val c3: Int, pri
         result = 31 * result + c3
         result = 31 * result + c4
         return result
+    }
+
+    override fun toString(): String {
+        return "Color4C{c1:$c1, c2:$c2, c3: $c3, c4: $c4"
     }
 }

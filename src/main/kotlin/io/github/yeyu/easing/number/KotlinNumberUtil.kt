@@ -1,5 +1,6 @@
 package io.github.yeyu.easing.number
 
+import io.github.yeyu.easing.number.KotlinNumberUtil.minus
 import io.github.yeyu.easing.type.Color3C
 import io.github.yeyu.easing.type.Color4C
 
@@ -32,6 +33,7 @@ object KotlinNumberUtil {
             this is Short || other is Short -> this.toShort() + other.toShort()
             this is Byte || other is Byte -> this.toByte() + other.toByte()
             this is Color3C && other is Color3C -> this + other
+            this is Color4C && other is Color4C -> this + other
             else -> throw RuntimeException("Unknown numeric type")
         }
     }
@@ -48,6 +50,7 @@ object KotlinNumberUtil {
             this is Short || other is Short -> this.toShort() - other.toShort()
             this is Byte || other is Byte -> this.toByte() - other.toByte()
             this is Color3C && other is Color3C -> this - other
+            this is Color4C && other is Color4C -> this - other
             else -> throw RuntimeException("Unknown numeric type")
         }
     }
