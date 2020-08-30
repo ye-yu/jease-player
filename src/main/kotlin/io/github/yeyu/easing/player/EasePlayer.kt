@@ -82,9 +82,4 @@ open class EasePlayer<T : Number>(
     fun resetFrame() {
         currentFrame = 0
     }
-
-    /**
-     * @return true is the current frame has reached the end of the frame
-     * */
-    internal val lastOfFrame: Boolean get() = currentFrame == numberOfFrames - 2
 }
