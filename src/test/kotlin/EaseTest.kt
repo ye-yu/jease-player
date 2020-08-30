@@ -1,6 +1,7 @@
 import io.github.yeyu.easing.NoEase1D
 import io.github.yeyu.easing.QuadraticEaseIn
 import io.github.yeyu.easing.QuadraticEaseInOut
+import io.github.yeyu.easing.QuadraticEaseOut
 import org.junit.Assert
 import org.junit.Test
 
@@ -49,6 +50,24 @@ class EaseTest {
         val multiplier = 0.2 / (3 * 0.2)
 
         Assert.assertEquals(rate1, rate2 * multiplier, tolerance)
+    }
+
+    @Test
+    fun inverseQuadraticEaseOutTest() {
+        val from = 0.0
+        val to = 10.0
+        val tolerance = 0.000015
+        val quadraticEaseOut = QuadraticEaseOut(from, to)
+
+        val at1 = 0.6
+        val at2 = 0.8
+        val at3 = 1.0
+
+        val rate1 = quadraticEaseOut.next(at2) - quadraticEaseOut.next(at1)
+        val rate2 = quadraticEaseOut.next(at3) - quadraticEaseOut.next(at2)
+        val multiplier = 0.2 / (3 * 0.2)
+
+        Assert.assertEquals(rate1 * multiplier, rate2, tolerance)
     }
 
     @Test
