@@ -47,7 +47,7 @@ open class EasePlayer<T : Number>(
      * Performs extra checking of bound when the parameter is a type of
      * comparable so that the new value is not outside of `lower` and `upper` bound.
      * */
-    internal open var transitionTo: T = upper
+    open var transitionTo: T = upper
         set(value) {
             if (value == field) return // does nothing
             if (value !is Comparable<*>) {
