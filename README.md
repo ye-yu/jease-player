@@ -1,6 +1,6 @@
 [![Maven Central](https://img.shields.io/maven-central/v/io.github.ye-yu/jeasing.svg?label=Maven%20Central)](https://search.maven.org/search?q=g:%22io.github.ye-yu%22%20AND%20a:%22jeasing%22)
 
-[![build tests](https://github.com/ye-yu/jease-player/workflows/tests/badge.svg)](https://github.com/ye-yu/jease-player/actions)
+[![build tests](https://github.com/ye-yu/jease-player/workflows/Tests/badge.svg)](https://github.com/ye-yu/jease-player/actions)
 
 # Jeasing - Java Easing Player Library
 
