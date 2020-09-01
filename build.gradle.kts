@@ -1,5 +1,7 @@
 @file:Suppress("UNUSED_VARIABLE")
 
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+
 plugins {
     java
     id("org.jetbrains.dokka") version "1.4.0-rc"
@@ -43,7 +45,8 @@ tasks {
 
     val buildJava8 by creating(Jar::class) {
         archiveClassifier.set(Jetbrains.TargetContext.JAVA_1_8.classifier ?: "java8")
-        val kotlinTask = compileKotlin.also {
+
+        from(compileKotlin.also {
             it.get().kotlinOptions {
                 jvmTarget = Jetbrains.TargetContext.JAVA_1_8.target
                 freeCompilerArgs = listOf(
@@ -51,15 +54,17 @@ tasks {
                     "-Xopt-in=kotlin.ExperimentalStdlibApi"
                 )
             }
-        }
+        })
 
-        val javaTask = compileJava.also {
+        from(compileJava.also {
             it.get().targetCompatibility = Jetbrains.TargetContext.JAVA_1_8.target
             it.get().sourceCompatibility = Jetbrains.TargetContext.JAVA_1_8.target
-        }
+        })
 
-        from(kotlinTask)
-        from(javaTask)
+        doLast {
+            resetCompileJava(compileJava)
+            resetCompileKotlin(compileKotlin)
+        }
     }
 
     compileJava {
@@ -171,7 +176,7 @@ tasks.named<Upload>("uploadArchives") {
 
 tasks.named("signArchives") {
     onlyIf {
-        project.hasProperty("signing.keyId", "signing.password", "signing.secretKeyRingFile").also {
+        project.hasProperty("sonatypeUsername", "sonatypePassword").also {
             if (it) logger.warn("Skipping signing: Invalid credentials")
         }
     }
@@ -184,4 +189,23 @@ inline fun <reified T> getOrDefault(of: Project, prop: String, def: T): T {
 
 fun Project.hasProperty(vararg keys: String): Boolean {
     return keys.all { hasProperty(it) }
+}
+
+fun resetCompileJava(compileJava: TaskProvider<JavaCompile>) {
+    compileJava {
+        targetCompatibility = Jetbrains.TargetContext.JAVA_11.target
+        sourceCompatibility = Jetbrains.TargetContext.JAVA_11.target
+    }
+}
+
+fun resetCompileKotlin(compileKotlin: TaskProvider<KotlinCompile>) {
+    compileKotlin {
+        kotlinOptions {
+            jvmTarget = Jetbrains.TargetContext.JAVA_11.target
+            freeCompilerArgs = listOf(
+                "-Xopt-in=kotlin.RequiresOptIn",
+                "-Xopt-in=kotlin.ExperimentalStdlibApi"
+            )
+        }
+    }
 }
