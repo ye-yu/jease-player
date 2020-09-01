@@ -1,7 +1,5 @@
 @file:Suppress("UNUSED_VARIABLE")
 
-import org.jetbrains.kotlin.gradle.tasks.throwGradleExceptionIfError
-
 plugins {
     java
     id("org.jetbrains.dokka") version "1.4.0-rc"
@@ -40,7 +38,7 @@ tasks {
         archiveClassifier.set("javadoc")
         from(project.tasks["dokkaJavadoc"])
     }
-    
+
     val buildJava8 by creating(Jar::class) {
         archiveClassifier.set(Jetbrains.TargetContext.JAVA_1_8.classifier ?: "java8")
         val kotlinTask = compileKotlin.also {
@@ -71,8 +69,8 @@ tasks {
         kotlinOptions {
             jvmTarget = Jetbrains.buildTarget
             freeCompilerArgs = listOf(
-                    "-Xopt-in=kotlin.RequiresOptIn",
-                    "-Xopt-in=kotlin.ExperimentalStdlibApi"
+                "-Xopt-in=kotlin.RequiresOptIn",
+                "-Xopt-in=kotlin.ExperimentalStdlibApi"
             )
         }
     }
@@ -110,9 +108,10 @@ tasks.named<Upload>("uploadArchives") {
     val sonatypeUsername: String? = getOrDefault(project, "sonatypeUsername", null)
     val sonatypePassword: String? = getOrDefault(project, "sonatypePassword", null)
 
-    if (sonatypeUsername == null || sonatypePassword == null) {
-        logger.error("Failing upload: Invalid credentials")
-        return@named
+    onlyIf {
+        (sonatypeUsername != null && sonatypePassword != null).also {
+            if (it) logger.warn("Skipping upload: Invalid credentials")
+        }
     }
 
     repositories {
@@ -168,8 +167,19 @@ tasks.named<Upload>("uploadArchives") {
     }
 }
 
-fun <T> getOrDefault(of: Project, prop: String, def: T): T {
-    @Suppress("UNCHECKED_CAST")
+tasks.named("signArchives") {
+    onlyIf {
+        project.hasProperty("signing.keyId", "signing.password", "signing.secretKeyRingFile").also {
+            if (it) logger.warn("Skipping signing: Invalid credentials")
+        }
+    }
+}
+
+inline fun <reified T> getOrDefault(of: Project, prop: String, def: T): T {
     if (of.hasProperty(prop)) return of.property(prop) as T
     return def
+}
+
+fun Project.hasProperty(vararg keys: String): Boolean {
+    return keys.all { hasProperty(it) }
 }
