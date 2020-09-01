@@ -11,12 +11,12 @@ import io.github.yeyu.easing.Ease
  * @param numberOfFrames the expected number of calls. The lower the frames, the faster the ease player.
  * @param easeFactory the ease factory to create new ease method when `transitionTo` property is set
  * */
-open class ReversingEasePlayer<T : Number>(
+open class ReversingFramefulEasePlayer<T : Number>(
         lower: T,
         upper: T,
         private val numberOfFrames: Int,
         easeFactory: (T, T) -> Ease<T>
-) : EasePlayer<T>(lower, upper, numberOfFrames, easeFactory) {
+) : FramefulEasePlayer<T>(lower, upper, numberOfFrames, easeFactory) {
 
     /**
      * A stateful property to indicate when to start reversing

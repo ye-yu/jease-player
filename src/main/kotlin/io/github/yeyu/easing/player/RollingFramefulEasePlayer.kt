@@ -10,16 +10,16 @@ import io.github.yeyu.easing.Ease
  * @param numberOfFrames the expected number of calls. The lower the frames, the faster the ease player.
  * @param easeFactory the ease factory to create new ease method when `transitionTo` property is set
  * */
-class RollingEasePlayer<T : Number>(
+class RollingFramefulEasePlayer<T : Number>(
         private val lower: T,
         upper: T,
         private val numberOfFrames: Int,
         easeFactory: (T, T) -> Ease<T>
-) : PersistentEasePlayer<T>(lower, upper, numberOfFrames, easeFactory) {
+) : PersistentFramefulEasePlayer<T>(lower, upper, numberOfFrames, easeFactory) {
 
     override fun next(): T {
         return super.next().also {
-            if (currentFrame == numberOfFrames) resetFrame()
+            if (currentFrame == numberOfFrames) reset()
         }
     }
 }
