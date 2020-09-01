@@ -1,7 +1,5 @@
-import io.github.yeyu.easing.NoEase1D
-import io.github.yeyu.easing.QuadraticEaseIn
-import io.github.yeyu.easing.QuadraticEaseInOut
-import io.github.yeyu.easing.QuadraticEaseOut
+import io.github.yeyu.easing.*
+import io.github.yeyu.easing.function.QuadraticFunction
 import org.junit.Assert
 import org.junit.Test
 
@@ -50,6 +48,21 @@ class EaseTest {
         val multiplier = 0.2 / (3 * 0.2)
 
         Assert.assertEquals(rate1, rate2 * multiplier, tolerance)
+    }
+
+    @Test
+    fun quadraticEase2Test() {
+        val from = 0.5
+        val to = 1.4
+        val easeIn = EaseInImpl(from, to, QuadraticFunction)
+
+        val frames = 20
+
+        for(i in 0 until frames) {
+            val at = i.toDouble() / (frames - 1) // do - 1 for creating domains of [0, 1]
+            val next = easeIn.next(at)
+            println("Animation: $next%")
+        }
     }
 
     @Test
