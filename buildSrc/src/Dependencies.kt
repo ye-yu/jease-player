@@ -1,8 +1,9 @@
-import org.apache.tools.ant.util.JavaEnvUtils.JAVA_11
+import org.apache.tools.ant.util.JavaEnvUtils
+import org.apache.tools.ant.util.JavaEnvUtils.JAVA_1_8
 
 object Jetbrains {
     private const val annotationsVersion = "17.0.0"
-    const val buildTarget = JAVA_11
+    const val buildTarget = JAVA_1_8
     const val annotations = "org.jetbrains:annotations:$annotationsVersion"
 
     object Kotlin {
@@ -14,5 +15,10 @@ object Jetbrains {
     object Kotlinx {
         const val coroutines = "org.jetbrains.kotlinx:kotlinx-coroutines-jdk8:1.3.7"
         const val serialization = "org.jetbrains.kotlinx:kotlinx-serialization-runtime:0.20.0"
+    }
+
+    enum class TargetContext(val target: String, val classifier: String? = null) {
+        JAVA_11(JavaEnvUtils.JAVA_11),
+        JAVA_1_8(JavaEnvUtils.JAVA_1_8, "java8");
     }
 }

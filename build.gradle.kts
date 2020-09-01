@@ -1,5 +1,7 @@
 @file:Suppress("UNUSED_VARIABLE")
 
+import org.jetbrains.kotlin.gradle.tasks.throwGradleExceptionIfError
+
 plugins {
     java
     id("org.jetbrains.dokka") version "1.4.0-rc"
@@ -12,8 +14,6 @@ plugins {
 
 group = Info.group
 version = Info.version
-val sonatypeUsername: String by project
-val sonatypePassword: String by project
 
 repositories {
     jcenter()
@@ -33,13 +33,33 @@ tasks {
         archiveClassifier.set("sources")
 
         from(sourceSets["main"].allSource)
-
         dependsOn(JavaPlugin.CLASSES_TASK_NAME)
     }
 
     val javadocJar by creating(Jar::class) {
         archiveClassifier.set("javadoc")
         from(project.tasks["dokkaJavadoc"])
+    }
+    
+    val buildJava8 by creating(Jar::class) {
+        archiveClassifier.set(Jetbrains.TargetContext.JAVA_1_8.classifier ?: "java8")
+        val kotlinTask = compileKotlin.also {
+            it.get().kotlinOptions {
+                jvmTarget = Jetbrains.TargetContext.JAVA_1_8.target
+                freeCompilerArgs = listOf(
+                    "-Xopt-in=kotlin.RequiresOptIn",
+                    "-Xopt-in=kotlin.ExperimentalStdlibApi"
+                )
+            }
+        }
+
+        val javaTask = compileJava.also {
+            it.get().targetCompatibility = Jetbrains.TargetContext.JAVA_1_8.target
+            it.get().sourceCompatibility = Jetbrains.TargetContext.JAVA_1_8.target
+        }
+
+        from(kotlinTask)
+        from(javaTask)
     }
 
     compileJava {
@@ -62,6 +82,7 @@ tasks {
 artifacts {
     add("archives", tasks["javadocJar"])
     add("archives", tasks["sourcesJar"])
+    add("archives", tasks["buildJava8"])
 }
 
 signing {
@@ -72,8 +93,10 @@ publishing {
     publications {
         create<MavenPublication>("maven") {
             artifacts {
+                version += "-LOCAL"
                 artifact(tasks["sourcesJar"])
                 artifact(tasks["javadocJar"])
+                artifact(tasks["buildJava8"])
             }
         }
 
@@ -84,6 +107,14 @@ publishing {
 }
 
 tasks.named<Upload>("uploadArchives") {
+    val sonatypeUsername: String? = getOrDefault(project, "sonatypeUsername", null)
+    val sonatypePassword: String? = getOrDefault(project, "sonatypePassword", null)
+
+    if (sonatypeUsername == null || sonatypePassword == null) {
+        logger.error("Failing upload: Invalid credentials")
+        throwGradleExceptionIfError(org.jetbrains.kotlin.cli.common.ExitCode.SCRIPT_EXECUTION_ERROR)
+    }
+
     repositories {
         withConvention(MavenRepositoryHandlerConvention::class) {
             mavenDeployer {
@@ -135,4 +166,10 @@ tasks.named<Upload>("uploadArchives") {
             }
         }
     }
+}
+
+fun <T> getOrDefault(of: Project, prop: String, def: T): T {
+    @Suppress("UNCHECKED_CAST")
+    if (of.hasProperty(prop)) return of.property(prop) as T
+    return def
 }
