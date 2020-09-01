@@ -112,7 +112,7 @@ tasks.named<Upload>("uploadArchives") {
 
     if (sonatypeUsername == null || sonatypePassword == null) {
         logger.error("Failing upload: Invalid credentials")
-        throwGradleExceptionIfError(org.jetbrains.kotlin.cli.common.ExitCode.SCRIPT_EXECUTION_ERROR)
+        return@named
     }
 
     repositories {
