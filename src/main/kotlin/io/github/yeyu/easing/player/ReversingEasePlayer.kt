@@ -42,7 +42,4 @@ open class ReversingEasePlayer<T : Number>(
         if (reverse) currentFrame-- else currentFrame++
         return current
     }
-
-    private val startOfFrame: Boolean get() = currentFrame == 0
-    private val endOfFrame: Boolean get() = currentFrame == numberOfFrames - 1
 }

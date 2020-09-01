@@ -23,7 +23,7 @@ interface Interpolator<T: Number> {
     val to: T
 
     /**
-     * A function to map the domain of [0, 1]
+     * A function to map the domain of `[0, 1]`
      * to the expected range of values such that:
      *   - `f(0) -> from`
      *   - `f(1) -> to`
@@ -35,7 +35,7 @@ interface Interpolator<T: Number> {
      *
      * @suppress unchecked casting of range and domain.
      * @see io.github.yeyu.easing.number.KotlinNumberUtil
-     * @param at a value of domain [0, 1]
+     * @param at a value of domain `[0, 1]`
      * @return the interpolated value
      * */
     fun next(at: Double): T {

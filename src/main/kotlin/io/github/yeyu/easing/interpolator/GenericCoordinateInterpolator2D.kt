@@ -4,7 +4,7 @@ import io.github.yeyu.easing.function.Function
 import io.github.yeyu.easing.function.LinearFunction
 
 /**
- * An interpolator that removes the domain constraint of [0, 1]
+ * An interpolator that removes the domain constraint of `[0, 1]`
  * and replace with [x1, x2] where x1 < x2.
  * */
 class GenericCoordinateInterpolator2D<T : Number>(

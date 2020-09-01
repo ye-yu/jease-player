@@ -10,18 +10,18 @@ import io.github.yeyu.easing.interpolator.Interpolator
  * clarification, extend EaseIn/EaseOut interface
  * instead.
  *
- * An ease function takes in the domain of [0, 1]
+ * An ease function takes in the domain of `[0, 1]`
  * */
 interface Ease<T: Number> {
 
     /**
-     * An interpolator that has the domain of [0, 1] and range
+     * An interpolator that has the domain of `[0, 1]` and range
      * that is defined in the implementing class
      * */
     val interpolator: Interpolator<T>
 
     /**
-     * An interpolator that has the domain of [0, 1] and range
+     * An interpolator that has the domain of `[0, 1]` and range
      * that is defined in the implementing class
      * */
     fun next(at: Double): T

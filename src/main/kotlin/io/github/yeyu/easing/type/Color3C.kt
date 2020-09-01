@@ -5,7 +5,7 @@ import kotlin.math.round
 /**
  * A type depicting three color channels of a byte size
  *
- * The range for each channel must be [0, 255]. When performing calculations,
+ * The range for each channel must be `[0, 255]`. When performing calculations,
  * values out of range may happen. Therefore, it may be helpful to use the
  * [wrap] or [clip] method to overflow the values.
  *
@@ -59,7 +59,7 @@ class Color3C(private val c1: Int, private val c2: Int, private val c3: Int, all
     }
 
     /**
-     * Clips each channel to the range of [0, 255]
+     * Clips each channel to the range of `[0, 255]`
      * */
     fun clip(): Color3C {
         return Color3C(
