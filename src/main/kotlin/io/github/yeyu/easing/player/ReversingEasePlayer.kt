@@ -7,7 +7,7 @@ import io.github.yeyu.easing.Ease
  * after reaching the start of the frame.
  *
  * @param lower the lower bound of the ease (`lower` can be more than `upper`)
- * @param upper the upper bound of the ease (`lower` can be less than `upper`)
+ * @param upper the upper bound of the ease (`upper` can be less than `lower`)
  * @param numberOfFrames the expected number of calls. The lower the frames, the faster the ease player.
  * @param easeFactory the ease factory to create new ease method when `transitionTo` property is set
  * */
