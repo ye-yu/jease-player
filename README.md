@@ -107,14 +107,14 @@ frame at each `next()` call. Therefore, [this code](#ease) will be transformed i
 
 ```kotlin
 import io.github.yeyu.easing.EaseInImpl
-import io.github.yeyu.easing.easeplayer.EasePlayer
+import io.github.yeyu.easing.easeplayer.FramefulEasePlayer
 import io.github.yeyu.easing.function.QuadraticFunction
 
 val from = 0.5
 val to = 1.4
 
 val frames = 20
-val easePlayer = EasePlayer(from, to, 20) { f: Double, t: To ->
+val easePlayer = FramefulEasePlayer(from, to, 20) { f: Double, t: To ->
     EaseInImpl(f, t, QuadraticFunction)
 }
 
@@ -133,14 +133,14 @@ simplifying extra the calculation.
 
 ```kotlin
 import io.github.yeyu.easing.EaseInImpl
-import io.github.yeyu.easing.easeplayer.EasePlayer
+import io.github.yeyu.easing.easeplayer.FramefulEasePlayer
 import io.github.yeyu.easing.function.QuadraticFunction
 
 val from = 0.5
 val to = 1.4
 
 val frames = 20
-val easePlayer = EasePlayer(from, to, 20) { f: Double, t: To ->
+val easePlayer = FramefulEasePlayer(from, to, 20) { f: Double, t: To ->
     EaseInImpl(f, t, QuadraticFunction)
 }
 
@@ -153,14 +153,26 @@ fun render() {
 
 ### Different Player Flavours
 
-Any instance of `EasePlayer` will throw an exception if called again after
+Any instance of `FramefulEasePlayer` will throw an exception if called again after
 reaching the maximum number of frames. Here are other players that might be
 useful if you are expecting to call `next()` infinitely many times.
 
-  - `PersistentEasePlayer` - replays the last frame after reaching the end of the frame
-  - `RollingEasePlayer` - replays the animation from the start after reaching the end of the frame
-  - `ReversingEasePlayer` - reverse the animation after at the end and at the start of the frame
+The following classes extend `FramefulEasePlayer`:
+
+  - `PersistentFramefulEasePlayer` - replays the last frame after reaching the end of the frame
+  - `RollingFramefulEasePlayer` - replays the animation from the start after reaching the end of the frame
+  - `ReversingFramefulEasePlayer` - reverse the animation after at the end and at the start of the frame
   
+All `FramefulEasePlayer` types are not frame-per-second(FPS) friendly as
+the number of frame does not scale to the FPS. That is, the lower
+the FPS, the slower the time taken for the animation to complete. 
+To overcome this, you may use these different variants of ease player that
+calculates the next frame based on the system time deltas.
+
+  - `PersistentTimeEasePlayer` - replays the last frame after reaching the end of the frame
+  - `RollingTimeEasePlayer` - replays the animation from the start after reaching the end of the frame
+  - `ReversingTimeEasePlayer` - reverse the animation after at the end and at the start of the frame
+
 ### Using `transitionTo`
 
 The property `transitionTo` is for setting different transition point inside of 
@@ -174,14 +186,14 @@ For example,
 
 ```kotlin
 import io.github.yeyu.easing.EaseInImpl
-import io.github.yeyu.easing.easeplayer.EasePlayer
+import io.github.yeyu.easing.easeplayer.FramefulEasePlayer
 import io.github.yeyu.easing.function.QuadraticFunction
 
 val from = 0.5
 val to = 1.4
 
 val frames = 20
-val easePlayer = EasePlayer(from, to, 20) { f: Double, t: To ->
+val easePlayer = FramefulEasePlayer(from, to, 20) { f: Double, t: To ->
     EaseInImpl(f, t, QuadraticFunction)
 }
 
@@ -204,9 +216,3 @@ easePlayer.transitionTo = 1.4
 // can now call another 20 frames
 // and interpolate from 0.95 to 1.4
 ```
-
-# Drawbacks
-
-The current Jeasing library is not frame-per-second(FPS) friendly as
-the number of frame does not scale to the rate of FPS. That is, the lower
-the FPS, the slower the time taken for the animation to complete.
