@@ -20,7 +20,9 @@ repositories {
 
 dependencies {
     api(Jetbrains.Kotlin.stdLib)
+    api(Jetbrains.Kotlin.annotations)
     api(Jetbrains.Kotlin.reflect)
+    api(Jetbrains.Kotlinx.coroutinesCore)
     api(Jetbrains.Kotlinx.coroutines)
     api(Jetbrains.Kotlinx.serialization)
     testImplementation("junit:junit:4.13")
@@ -61,13 +63,13 @@ tasks {
     }
 
     compileJava {
-        targetCompatibility = Jetbrains.buildTarget
-        sourceCompatibility = Jetbrains.buildTarget
+        targetCompatibility = Jetbrains.TargetContext.JAVA_11.target
+        sourceCompatibility = Jetbrains.TargetContext.JAVA_11.target
     }
 
     compileKotlin {
         kotlinOptions {
-            jvmTarget = Jetbrains.buildTarget
+            jvmTarget = Jetbrains.TargetContext.JAVA_11.target
             freeCompilerArgs = listOf(
                 "-Xopt-in=kotlin.RequiresOptIn",
                 "-Xopt-in=kotlin.ExperimentalStdlibApi"

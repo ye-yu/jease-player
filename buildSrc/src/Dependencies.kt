@@ -1,19 +1,20 @@
 import org.apache.tools.ant.util.JavaEnvUtils
-import org.apache.tools.ant.util.JavaEnvUtils.JAVA_1_8
 
+@Suppress("MemberVisibilityCanBePrivate")
 object Jetbrains {
-    private const val annotationsVersion = "17.0.0"
-    const val buildTarget = JAVA_1_8
-    const val annotations = "org.jetbrains:annotations:$annotationsVersion"
 
     object Kotlin {
         const val version = "1.4.0"
         const val stdLib = "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$version"
         const val reflect = "org.jetbrains.kotlin:kotlin-reflect:$version"
+
+        private const val annotationsVersion = "20.0.0"
+        const val annotations = "org.jetbrains:annotations:$annotationsVersion"
     }
 
     object Kotlinx {
-        const val coroutines = "org.jetbrains.kotlinx:kotlinx-coroutines-jdk8:1.3.7"
+        const val coroutinesCore = "org.jetbrains.kotlinx:kotlinx-coroutines-jdk8:1.3.9"
+        const val coroutines = "org.jetbrains.kotlinx:kotlinx-coroutines-jdk8:1.3.9"
         const val serialization = "org.jetbrains.kotlinx:kotlinx-serialization-runtime:0.20.0"
     }
 
