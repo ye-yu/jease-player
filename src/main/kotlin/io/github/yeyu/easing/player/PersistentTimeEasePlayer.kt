@@ -38,7 +38,7 @@ open class PersistentTimeEasePlayer<T : Number>(
 
     override var transitionTo: T = upper
         set(value) {
-            if (value == field) return // does nothing
+            if (current == field) return // does nothing
             if (value is Comparable<*>) {
                 if (value < lower) throw IllegalArgumentException("Cannot go less than $lower")
                 if (value > upper) throw IllegalArgumentException("Cannot go more than $upper")

@@ -18,7 +18,6 @@ class LongToGenericCoordinateInterpolator2D<T : Number>(
     init {
         require(x1 != x2) { "Interpolating domain cannot be the same" }
         require(x1 < x2) { "The interpolating lower bound{$x1} must be less than the upper bound{$x2}" }
-        require(from != to) { "Interpolating range cannot be the same" }
     }
 
     /**

@@ -6,11 +6,6 @@ import kotlin.math.round
 
 @Deprecated("Alpha test", replaceWith = ReplaceWith("GenericInterpolator<Int>", "io.github.yeyu.easing.interpolator.GenericInterpolator"))
 class IntInterpolator1D(override val from: Int, override val to: Int, override val function: Function = LinearFunction) : Interpolator<Int> {
-
-    init {
-        require(from != to) { "Interpolating range cannot be the same!" }
-    }
-
     override fun next(at: Double): Int {
         return from + round((to - from).toDouble() * function.f(at)).toInt()
     }

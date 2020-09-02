@@ -6,10 +6,4 @@ import io.github.yeyu.easing.function.LinearFunction
 class GenericInterpolator1D<T : Number>(
         override val from: T,
         override val to: T,
-        override val function: Function = LinearFunction) : Interpolator<T> {
-
-    init {
-        require(from != to) { "Interpolating range cannot be the same!" }
-    }
-}
-
+        override val function: Function = LinearFunction) : Interpolator<T>
