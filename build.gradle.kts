@@ -14,7 +14,10 @@ plugins {
 
 group = Info.group
 version = Info.version
-val canSignAndUpload = project.hasProperty("sonatypeUsername", "sonatypePassword")
+val canSignAndUpload = hasProperty("sonatypeUsername", "sonatypePassword").also {
+    if (it) logger.info("Can upload and sign")
+    else logger.warn("Skipping upload and sign")
+}
 
 repositories {
     jcenter()
@@ -113,6 +116,7 @@ publishing {
 }
 
 tasks.named<Upload>("uploadArchives") {
+    // FIXME: failed on github CI?
     onlyIf {
         canSignAndUpload.also {
             if (!it) logger.warn("Skipping upload: Invalid credentials")
@@ -184,12 +188,12 @@ tasks.named("signArchives") {
 }
 
 inline fun <reified T> getOrDefault(of: Project, prop: String, def: T): T {
-    if (of.hasProperty(prop)) return of.property(prop) as T
+    if (System.getProperties().containsKey(prop)) return of.property(prop) as T
     return def
 }
 
-fun Project.hasProperty(vararg keys: String): Boolean {
-    return keys.all { hasProperty(it) }
+fun hasProperty(vararg keys: String): Boolean {
+    return keys.all(System.getProperties()::containsKey)
 }
 
 fun resetCompileJava(compileJava: TaskProvider<JavaCompile>) {
