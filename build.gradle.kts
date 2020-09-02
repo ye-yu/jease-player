@@ -170,7 +170,7 @@ tasks.named<Upload>("uploadArchives") {
 }
 
 inline fun <reified T> getOrDefault(of: Project, prop: String, def: T): T {
-    if (System.getProperties().containsKey(prop)) return of.property(prop) as T
+    if (project.hasProperty(prop)) return of.property(prop) as T
     return def
 }
 
