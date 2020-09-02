@@ -14,6 +14,7 @@ plugins {
 
 group = Info.group
 version = Info.version
+val canSignAndUpload = project.hasProperty("sonatypeUsername", "sonatypePassword")
 
 repositories {
     jcenter()
@@ -112,14 +113,14 @@ publishing {
 }
 
 tasks.named<Upload>("uploadArchives") {
-    val sonatypeUsername: String? = getOrDefault(project, "sonatypeUsername", null)
-    val sonatypePassword: String? = getOrDefault(project, "sonatypePassword", null)
-
     onlyIf {
-        (sonatypeUsername != null && sonatypePassword != null).also {
-            if (it) logger.warn("Skipping upload: Invalid credentials")
+        canSignAndUpload.also {
+            if (!it) logger.warn("Skipping upload: Invalid credentials")
         }
     }
+
+    val sonatypeUsername: String by project
+    val sonatypePassword: String by project
 
     repositories {
         withConvention(MavenRepositoryHandlerConvention::class) {
@@ -176,8 +177,8 @@ tasks.named<Upload>("uploadArchives") {
 
 tasks.named("signArchives") {
     onlyIf {
-        project.hasProperty("sonatypeUsername", "sonatypePassword").also {
-            if (it) logger.warn("Skipping signing: Invalid credentials")
+        canSignAndUpload.also {
+            if (!it) logger.warn("Skipping signing: Invalid credentials")
         }
     }
 }
