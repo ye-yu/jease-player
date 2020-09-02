@@ -1,4 +1,8 @@
-import io.github.yeyu.easing.NoEase1D
+import io.github.yeyu.easing.EaseInImpl
+import io.github.yeyu.easing.function.LinearFunction
+import io.github.yeyu.easing.interpolator.DoubleToColor3CInterpolator
+import io.github.yeyu.easing.interpolator.DoubleToColor4CInterpolator
+import io.github.yeyu.easing.interpolator.DoubleToDoubleInterpolator
 import io.github.yeyu.easing.player.*
 import io.github.yeyu.easing.type.Color3C
 import io.github.yeyu.easing.type.Color4C
@@ -14,12 +18,13 @@ class EasePlayerTest {
         val numberOfFrames = 20
         val transitionTo = 5.0
         val tolerance = 0.000015
-        val noEasePlayer = FramefulEasePlayer(from, to, numberOfFrames) { f: Double, t: Double -> NoEase1D(f, t) }
+        val ease = EaseInImpl(from, to, LinearFunction, DoubleToDoubleInterpolator)
+        val noEasePlayer = FramefulEasePlayer(ease, numberOfFrames)
         noEasePlayer.transitionTo = transitionTo
 
         var n = 0
         var last = 0.0
-        while(noEasePlayer.hasNext()) {
+        while (noEasePlayer.hasNext()) {
             last = noEasePlayer.next()
             println("Next of $last")
             n++
@@ -37,11 +42,12 @@ class EasePlayerTest {
         val transitionMiddle = 6.0
         val transitionTo = 5.0
         val tolerance = 0.000015
-        val noEasePlayer = FramefulEasePlayer(from, to, numberOfFrames) { f: Double, t: Double -> NoEase1D(f, t) }
+        val ease = EaseInImpl(from, to, LinearFunction, DoubleToDoubleInterpolator)
+        val noEasePlayer = FramefulEasePlayer(ease, numberOfFrames)
         noEasePlayer.transitionTo = transitionMiddle
 
         var n = 1
-        while(noEasePlayer.hasNext()) {
+        while (noEasePlayer.hasNext()) {
             noEasePlayer.next()
             n++
         }
@@ -60,10 +66,11 @@ class EasePlayerTest {
         val numberOfFrames = 20
         val transitionTo = 5.0
         val tolerance = 0.000015
-        val noEasePersistentPlayer = PersistentFramefulEasePlayer(from, to, numberOfFrames) { f: Double, t: Double -> NoEase1D(f, t) }
+        val ease = EaseInImpl(from, to, LinearFunction, DoubleToDoubleInterpolator)
+        val noEasePersistentPlayer = PersistentFramefulEasePlayer(ease, numberOfFrames)
         noEasePersistentPlayer.transitionTo = transitionTo
 
-        for(i in 0 until numberOfFrames) noEasePersistentPlayer.next()
+        for (i in 0 until numberOfFrames) noEasePersistentPlayer.next()
 
         Assert.assertEquals(noEasePersistentPlayer.next(), noEasePersistentPlayer.next(), tolerance)
     }
@@ -75,10 +82,11 @@ class EasePlayerTest {
         val numberOfFrames = 20
         val transitionTo = 5.0
         val tolerance = 0.000015
-        val noEaseRollingPlayer = RollingFramefulEasePlayer(from, to, numberOfFrames) { f: Double, t: Double -> NoEase1D(f, t) }
+        val ease = EaseInImpl(from, to, LinearFunction, DoubleToDoubleInterpolator)
+        val noEaseRollingPlayer = RollingFramefulEasePlayer(ease, numberOfFrames)
         noEaseRollingPlayer.transitionTo = transitionTo
 
-        for(i in 0 until numberOfFrames) noEaseRollingPlayer.next()
+        for (i in 0 until numberOfFrames) noEaseRollingPlayer.next()
 
         Assert.assertEquals(from, noEaseRollingPlayer.next(), tolerance)
         val next = noEaseRollingPlayer.next()
@@ -92,11 +100,12 @@ class EasePlayerTest {
         val numberOfFrames = 20
         val transitionTo = 5.0
         val tolerance = 0.000015
-        val noEaseReversingPlayer = ReversingFramefulEasePlayer(from, to, numberOfFrames) { f: Double, t: Double -> NoEase1D(f, t) }
+        val ease = EaseInImpl(from, to, LinearFunction, DoubleToDoubleInterpolator)
+        val noEaseReversingPlayer = ReversingFramefulEasePlayer(ease, numberOfFrames)
         noEaseReversingPlayer.transitionTo = transitionTo
 
         var last = 0.0
-        for(i in 0 until numberOfFrames) {
+        for (i in 0 until numberOfFrames) {
             last = noEaseReversingPlayer.next()
         }
         Assert.assertEquals(transitionTo, last, tolerance)
@@ -110,7 +119,8 @@ class EasePlayerTest {
         val from = Color4C(0, 0, 0, 0)
         val to = Color4C(80, 80, 50, 60)
         val numberOfFrames = 10
-        val colorEasePlayer = PersistentFramefulEasePlayer(from, to, numberOfFrames, ::NoEase1D)
+        val ease = EaseInImpl(from, to, LinearFunction, DoubleToColor4CInterpolator)
+        val colorEasePlayer = PersistentFramefulEasePlayer(ease, numberOfFrames)
         colorEasePlayer.transitionTo = to
 
         var last = Color4C(0, 0, 0, 0)
@@ -127,7 +137,8 @@ class EasePlayerTest {
         val from = Color4C(0, 80, 0, 0)
         val to = Color4C(80, 0, 50, 60)
         val numberOfFrames = 10
-        val colorEasePlayer = PersistentFramefulEasePlayer(from, to, numberOfFrames, ::NoEase1D)
+        val ease = EaseInImpl(from, to, LinearFunction, DoubleToColor4CInterpolator)
+        val colorEasePlayer = PersistentFramefulEasePlayer(ease, numberOfFrames)
         colorEasePlayer.transitionTo = to
 
         var last = Color4C(0, 0, 0, 0)
@@ -144,7 +155,8 @@ class EasePlayerTest {
         val from = Color3C(0, 80, 0)
         val to = Color3C(80, 0, 0)
         val numberOfFrames = 10
-        val colorEasePlayer = PersistentFramefulEasePlayer(from, to, numberOfFrames, ::NoEase1D)
+        val ease = EaseInImpl(from, to, LinearFunction, DoubleToColor3CInterpolator)
+        val colorEasePlayer = PersistentFramefulEasePlayer(ease, numberOfFrames)
         colorEasePlayer.transitionTo = to
 
         var last = Color3C(0, 0, 0)
@@ -163,7 +175,8 @@ class EasePlayerTest {
         val animationDuration = 1000L
         val transitionTo = 5.0
         val tolerance = 0.000015
-        val noEasePersistentPlayer = PersistentTimeEasePlayer(from, to, animationDuration) { f: Double, t: Double -> NoEase1D(f, t) }
+        val ease = EaseInImpl(from, to, LinearFunction, DoubleToDoubleInterpolator)
+        val noEasePersistentPlayer = PersistentTimeEasePlayer(ease, animationDuration)
         noEasePersistentPlayer.transitionTo = transitionTo
 
         val first = noEasePersistentPlayer.next()
@@ -181,7 +194,8 @@ class EasePlayerTest {
         val to = 10.0
         val animationDuration = 1000L
         val transitionTo = 5.0
-        val rollingTimeEasePlayer = RollingTimeEasePlayer(from, to, animationDuration) { f: Double, t: Double -> NoEase1D(f, t) }
+        val ease = EaseInImpl(from, to, LinearFunction, DoubleToDoubleInterpolator)
+        val rollingTimeEasePlayer = RollingTimeEasePlayer(ease, animationDuration)
         rollingTimeEasePlayer.transitionTo = transitionTo
 
         val first = rollingTimeEasePlayer.next()
@@ -200,7 +214,8 @@ class EasePlayerTest {
         val to = 10.0
         val animationDuration = 1000L
         val transitionTo = 5.0
-        val reversingTimeEasePlayer = ReversingTimeEasePlayer(from, to, animationDuration) { f: Double, t: Double -> NoEase1D(f, t) }
+        val ease = EaseInImpl(from, to, LinearFunction, DoubleToDoubleInterpolator)
+        val reversingTimeEasePlayer = ReversingTimeEasePlayer(ease, animationDuration)
         reversingTimeEasePlayer.transitionTo = transitionTo
 
         val first = reversingTimeEasePlayer.next()

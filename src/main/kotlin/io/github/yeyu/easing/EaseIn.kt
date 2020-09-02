@@ -1,7 +1,7 @@
 package io.github.yeyu.easing
 
 import io.github.yeyu.easing.function.Function
-import io.github.yeyu.easing.interpolator.Interpolator
+import io.github.yeyu.easing.interpolator.GenericInterpolator
 
 /**
  * An ease-in interface. Ease-in means the
@@ -9,7 +9,7 @@ import io.github.yeyu.easing.interpolator.Interpolator
  *
  * An ease function takes in the domain of `[0, 1]`
  * */
-interface EaseIn<T: Number>: Ease<T> {
+interface EaseIn<T : Number> : Ease<T> {
     /**
      * An ease-in function
      * */
@@ -19,6 +19,7 @@ interface EaseIn<T: Number>: Ease<T> {
      * An interpolator that has the domain of `[0, 1]` and range
      * that is defined in the implementing class
      * */
-    val easeInInterpolator1D: Interpolator<T>
+    @Deprecated("Use Ease.interpolator", ReplaceWith("interpolator"))
+    val easeInInterpolator1D: GenericInterpolator<Double, T>
         get() = interpolator
 }

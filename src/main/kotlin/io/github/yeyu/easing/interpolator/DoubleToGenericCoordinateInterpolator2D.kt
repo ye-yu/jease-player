@@ -7,12 +7,14 @@ import io.github.yeyu.easing.function.LinearFunction
  * An interpolator that removes the domain constraint of `[0, 1]`
  * and replace with [x1, x2] where x1 < x2.
  * */
+@Deprecated("Use functional interpolator")
 class DoubleToGenericCoordinateInterpolator2D<T : Number>(
-        private val x1: Double,
-        override val from: T,
-        private val x2: Double,
-        override val to: T,
-        override val function: Function = LinearFunction) : Interpolator<T> {
+    private val x1: Double,
+    override val from: T,
+    private val x2: Double,
+    override val to: T,
+    override val function: Function = LinearFunction
+) : Interpolator<T> {
 
     init {
         require(x1 != x2) { "Interpolating domain cannot be the same" }

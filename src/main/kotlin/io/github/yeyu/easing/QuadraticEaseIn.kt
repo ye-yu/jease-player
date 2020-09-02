@@ -8,8 +8,9 @@ import io.github.yeyu.easing.interpolator.Interpolator
 /**
  * A quadratic ease-in function
  * */
-class QuadraticEaseIn<T: Number>(from: T, to: T) : EaseIn<T> {
-    override val easeInFunction: Function = QuadraticFunction
-    override val interpolator: Interpolator<T> = GenericInterpolator1D(from, to, easeInFunction)
-    override fun next(at: Double): T = interpolator.next(at)
+@Deprecated("Use Ease with Linear function")
+class QuadraticEaseIn<T : Number>(from: T, to: T) {
+    val easeInFunction: Function = QuadraticFunction
+    val interpolator: Interpolator<T> = GenericInterpolator1D(from, to, easeInFunction)
+    fun next(at: Double): T = interpolator.next(at)
 }

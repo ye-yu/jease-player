@@ -1,5 +1,9 @@
-import io.github.yeyu.easing.*
+import io.github.yeyu.easing.EaseInImpl
+import io.github.yeyu.easing.function.InverseQuadratic
+import io.github.yeyu.easing.function.LinearFunction
 import io.github.yeyu.easing.function.QuadraticFunction
+import io.github.yeyu.easing.interpolator.DoubleToDoubleInterpolator
+import io.github.yeyu.easing.interpolator.DoubleToIntInterpolator
 import org.junit.Assert
 import org.junit.Test
 
@@ -9,7 +13,7 @@ class EaseTest {
     fun noEaseTest() {
         val from = 0
         val to = 10
-        val noEase1D = NoEase1D(from, to)
+        val noEase1D = EaseInImpl(from, to, LinearFunction, DoubleToIntInterpolator)
         val expectedArray = IntArray(5) { it * 2 }
         val actualArray = IntArray(5) { noEase1D.next(it.toDouble() / 5) }
         Assert.assertArrayEquals(expectedArray, actualArray)
@@ -20,7 +24,7 @@ class EaseTest {
         val from = 0.0
         val to = 10.0
         val tolerance = 0.000015
-        val noEase1D = NoEase1D(from, to)
+        val noEase1D = EaseInImpl(from, to, LinearFunction, DoubleToDoubleInterpolator)
 
         val at1 = 0.0
         val at2 = 0.2
@@ -37,7 +41,7 @@ class EaseTest {
         val from = 0.0
         val to = 10.0
         val tolerance = 0.000015
-        val quadraticEaseIn = QuadraticEaseIn(from, to)
+        val quadraticEaseIn = EaseInImpl(from, to, QuadraticFunction, DoubleToDoubleInterpolator)
 
         val at1 = 0.0
         val at2 = 0.2
@@ -54,11 +58,11 @@ class EaseTest {
     fun quadraticEase2Test() {
         val from = 0.5
         val to = 1.4
-        val easeIn = EaseInImpl(from, to, QuadraticFunction)
+        val easeIn = EaseInImpl(from, to, QuadraticFunction, DoubleToDoubleInterpolator)
 
         val frames = 20
 
-        for(i in 0 until frames) {
+        for (i in 0 until frames) {
             val at = i.toDouble() / (frames - 1) // do - 1 for creating domains of [0, 1]
             val next = easeIn.next(at)
             println("Animation: $next%")
@@ -70,7 +74,7 @@ class EaseTest {
         val from = 0.0
         val to = 10.0
         val tolerance = 0.000015
-        val quadraticEaseOut = QuadraticEaseOut(from, to)
+        val quadraticEaseOut = EaseInImpl(from, to, InverseQuadratic, DoubleToDoubleInterpolator)
 
         val at1 = 0.6
         val at2 = 0.8
@@ -88,7 +92,7 @@ class EaseTest {
         val from = 0.0
         val to = 10.0
         val tolerance = 0.000015
-        val quadraticEaseInOut = QuadraticEaseInOut(from, to)
+        val quadraticEaseInOut = EaseInImpl(from, to, LinearFunction, DoubleToDoubleInterpolator)
 
         val at1 = 0.0
         val at2 = 0.2
@@ -106,7 +110,7 @@ class EaseTest {
         val from = 0.0
         val to = 10.0
         val tolerance = 0.000015
-        val quadraticEaseInOut = QuadraticEaseInOut(from, to)
+        val quadraticEaseInOut = EaseInImpl(from, to, LinearFunction, DoubleToDoubleInterpolator)
 
         Assert.assertEquals(to / 2, quadraticEaseInOut.next(0.5), tolerance)
     }

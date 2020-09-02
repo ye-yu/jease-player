@@ -8,7 +8,8 @@ import io.github.yeyu.easing.number.KotlinNumberUtil.times
 /**
  * A module-specific interpolator.
  * */
-interface Interpolator<T: Number> {
+@Deprecated("Use functional interpolator")
+interface Interpolator<T : Number> {
 
     /**
      * The bound of the interpolation

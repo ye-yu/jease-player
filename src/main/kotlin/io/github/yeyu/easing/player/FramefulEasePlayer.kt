@@ -1,7 +1,6 @@
 package io.github.yeyu.easing.player
 
 import io.github.yeyu.easing.Ease
-import io.github.yeyu.easing.number.KotlinNumberUtil.compareTo
 
 /**
  * A simple ease function iterator based on the number of frames.
@@ -9,27 +8,18 @@ import io.github.yeyu.easing.number.KotlinNumberUtil.compareTo
  * In each render time, call the method `next()` to get the next
  * interpolated value.
  *
- * @param lower the lower bound of the ease (`lower` can be more than `upper`)
- * @param upper the upper bound of the ease (`upper` can be less than `lower`)
+ * @param easeFn the ease instance with pre-defined `from` and `to` value
  * @param numberOfFrames the expected number of calls. The lower the frames, the faster the ease player.
- * @param easeFactory the ease factory to create new ease method when `transitionTo` property is set
  * */
 open class FramefulEasePlayer<T : Number>(
-    private val lower: T,
-    private val upper: T,
+    final override val easeFn: Ease<T>,
     private val numberOfFrames: Int,
-    private val easeFactory: (T, T) -> Ease<T>
 ) : EasePlayer<T>, Iterator<T> {
-
-    /**
-     * The current ease function
-     * */
-    override var easeFn: Ease<T> = easeFactory(lower, upper)
 
     /**
      * The current interpolated value
      * */
-    internal var current = lower
+    internal var current = easeFn.from
 
     /**
      * The current frame
@@ -47,15 +37,12 @@ open class FramefulEasePlayer<T : Number>(
      * Performs extra checking of bound when the parameter is a type of
      * comparable so that the new value is not outside of `lower` and `upper` bound.
      * */
-    override var transitionTo: T = upper
+    override var transitionTo: T = easeFn.to
         set(value) {
-            if (current == field) return // does nothing
-            if (value !is Comparable<*>) {
-                if (value < lower) throw IllegalArgumentException("Cannot go less than $lower")
-                if (value > upper) throw IllegalArgumentException("Cannot go more than $upper")
-            }
+            if (current == value) return
             field = value
-            easeFn = easeFactory(current, value)
+            easeFn.from = current
+            easeFn.to = field
             reset()
         }
 

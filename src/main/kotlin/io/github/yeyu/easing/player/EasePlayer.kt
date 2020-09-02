@@ -5,7 +5,7 @@ import io.github.yeyu.easing.Ease
 /**
  * A base interface for all ease players
  * */
-interface EasePlayer<T: Number> {
+interface EasePlayer<T : Number> {
     /**
      * Sets the ease to transit to an intermediate value.
      * Every reset of `transitionTo` will reset the iterator
@@ -22,7 +22,7 @@ interface EasePlayer<T: Number> {
     /**
      * The current ease function
      * */
-    var easeFn: Ease<T>
+    val easeFn: Ease<T>
 
     /**
      * Resets the frame back to the beginning

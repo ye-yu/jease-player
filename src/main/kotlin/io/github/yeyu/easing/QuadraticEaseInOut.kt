@@ -16,13 +16,16 @@ import io.github.yeyu.easing.number.KotlinNumberUtil.plus
  * and an ease-out is performed on the
  * second half.
  * */
-class QuadraticEaseInOut<T : Number>(from: T, to: T) : EaseInOut<T> {
+@Deprecated("Use Ease with Linear function")
+class QuadraticEaseInOut<T : Number>(from: T, to: T) {
     @Suppress("UNCHECKED_CAST")
     private val half: T = (from + (to - from) / 2) as T
-    override val easeOutFunction: Function = InverseQuadratic
-    override val easeInFunction: Function = QuadraticFunction
-    override val easeInInterpolator1D: Interpolator<T> = DoubleToGenericCoordinateInterpolator2D(0.0, from, 0.5, half, easeInFunction)
-    override val easeOutInterpolator1D: Interpolator<T> = DoubleToGenericCoordinateInterpolator2D(0.5, half, 1.0, to, easeOutFunction)
+    val easeOutFunction: Function = InverseQuadratic
+    val easeInFunction: Function = QuadraticFunction
+    val easeInInterpolator1D: Interpolator<T> =
+        DoubleToGenericCoordinateInterpolator2D(0.0, from, 0.5, half, easeInFunction)
+    val easeOutInterpolator1D: Interpolator<T> =
+        DoubleToGenericCoordinateInterpolator2D(0.5, half, 1.0, to, easeOutFunction)
 
-    override fun next(at: Double): T = if (at < 0.5) easeInInterpolator1D.next(at) else easeOutInterpolator1D.next(at)
+    fun next(at: Double): T = if (at < 0.5) easeInInterpolator1D.next(at) else easeOutInterpolator1D.next(at)
 }

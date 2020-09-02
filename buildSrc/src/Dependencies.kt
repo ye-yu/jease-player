@@ -13,8 +13,9 @@ object Jetbrains {
     }
 
     object Kotlinx {
-        const val coroutinesCore = "org.jetbrains.kotlinx:kotlinx-coroutines-jdk8:1.3.9"
-        const val coroutines = "org.jetbrains.kotlinx:kotlinx-coroutines-jdk8:1.3.9"
+        private const val coroutineVersion = "1.3.9"
+        const val coroutinesCore = "org.jetbrains.kotlinx:kotlinx-coroutines-jdk8:$coroutineVersion"
+        const val coroutines = "org.jetbrains.kotlinx:kotlinx-coroutines-jdk8:$coroutineVersion"
         const val serialization = "org.jetbrains.kotlinx:kotlinx-serialization-runtime:0.20.0"
     }
 

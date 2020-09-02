@@ -5,17 +5,13 @@ import io.github.yeyu.easing.Ease
 /**
  * An ease player that replays the last frame when the iteration is exhausted
  *
- * @param lower the lower bound of the ease (`lower` can be more than `upper`)
- * @param upper the upper bound of the ease (`upper` can be less than `lower`)
+ * @param easeFn the ease instance with pre-defined `from` and `to` value
  * @param numberOfFrames the expected number of calls. The lower the frames, the faster the ease player.
- * @param easeFactory the ease factory to create new ease method when `transitionTo` property is set
  * */
 open class PersistentFramefulEasePlayer<T : Number>(
-        lower: T,
-        upper: T,
-        private val numberOfFrames: Int,
-        easeFactory: (T, T) -> Ease<T>
-) : FramefulEasePlayer<T>(lower, upper, numberOfFrames, easeFactory) {
+    easeFn: Ease<T>,
+    private val numberOfFrames: Int
+) : FramefulEasePlayer<T>(easeFn, numberOfFrames) {
 
     /**
      * @return the next value of the ease interpolation
