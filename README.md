@@ -20,7 +20,7 @@ implementation "io.github.yeyu:jeasing:0.0.1-alpha.3:java8"
 For other:
   - group id = io.github.yeyu
   - artifact = jeasing
-  - version = 0.0.1-alpha.2
+  - version = 0.0.1-alpha.3
   - classifier = java8 (specify if you compile to java 8)
   
 ## Tutorial
