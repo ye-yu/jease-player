@@ -116,13 +116,10 @@ publishing {
 }
 
 tasks.named<Upload>("uploadArchives") {
-    // FIXME: failed on github CI?
-    onlyIf {
-        canSignAndUpload.also {
-            if (!it) logger.warn("Skipping upload: Invalid credentials")
-        }
+    if (!canSignAndUpload) {
+        logger.warn("Skipping upload: Invalid credentials")
+        return@named
     }
-
     val sonatypeUsername: String by project
     val sonatypePassword: String by project
 
@@ -180,10 +177,9 @@ tasks.named<Upload>("uploadArchives") {
 }
 
 tasks.named("signArchives") {
-    onlyIf {
-        canSignAndUpload.also {
-            if (!it) logger.warn("Skipping signing: Invalid credentials")
-        }
+    if (!canSignAndUpload) {
+        logger.warn("Skipping signing: Invalid credentials")
+        return@named
     }
 }
 
