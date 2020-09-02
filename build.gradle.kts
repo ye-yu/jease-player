@@ -169,6 +169,10 @@ tasks.named<Upload>("uploadArchives") {
     }
 }
 
+tasks.named("signArchives") {
+    if (getOrDefault<String?>(project, "signing.keyId", null) == null) return@named
+}
+
 inline fun <reified T> getOrDefault(of: Project, prop: String, def: T): T {
     if (System.getProperties().containsKey(prop)) return of.property(prop) as T
     return def
