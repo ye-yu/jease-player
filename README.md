@@ -11,16 +11,16 @@ Add this to your dependency
 
 For gradle
 ```build.gradle
-implementation "io.github.yeyu:jeasing:0.0.1-alpha.1"
+implementation "io.github.yeyu:jeasing:0.0.1-alpha.2"
 
 // or if you are building for java 1.8
-implementation "io.github.yeyu:jeasing:0.0.1-alpha.1:java8"
+implementation "io.github.yeyu:jeasing:0.0.1-alpha.2:java8"
 ```
 
 For other:
   - group id = io.github.yeyu
   - artifact = jeasing
-  - version = 0.0.1-alpha.1
+  - version = 0.0.1-alpha.2
   - classifier = java8 (specify if you compile to java 8)
   
 ## Tutorial
