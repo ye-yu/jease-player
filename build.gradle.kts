@@ -14,10 +14,6 @@ plugins {
 
 group = Info.group
 version = Info.version
-val canSignAndUpload = hasProperty("sonatypeUsername", "sonatypePassword").also {
-    if (it) logger.info("Can upload and sign")
-    else logger.warn("Skipping upload and sign")
-}
 
 repositories {
     jcenter()
@@ -116,10 +112,7 @@ publishing {
 }
 
 tasks.named<Upload>("uploadArchives") {
-    if (!canSignAndUpload) {
-        logger.warn("Skipping upload: Invalid credentials")
-        return@named
-    }
+
     val sonatypeUsername: String by project
     val sonatypePassword: String by project
 
@@ -174,22 +167,6 @@ tasks.named<Upload>("uploadArchives") {
             }
         }
     }
-}
-
-tasks.named("signArchives") {
-    if (!canSignAndUpload) {
-        logger.warn("Skipping signing: Invalid credentials")
-        return@named
-    }
-}
-
-inline fun <reified T> getOrDefault(of: Project, prop: String, def: T): T {
-    if (System.getProperties().containsKey(prop)) return of.property(prop) as T
-    return def
-}
-
-fun hasProperty(vararg keys: String): Boolean {
-    return keys.all(System.getProperties()::containsKey)
 }
 
 fun resetCompileJava(compileJava: TaskProvider<JavaCompile>) {
