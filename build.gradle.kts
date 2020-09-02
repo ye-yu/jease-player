@@ -113,8 +113,8 @@ publishing {
 
 tasks.named<Upload>("uploadArchives") {
 
-    val sonatypeUsername: String by project
-    val sonatypePassword: String by project
+    val sonatypeUsername: String = getOrDefault<String?>(project, "sonatypeUsername", null) ?: return@named
+    val sonatypePassword: String = getOrDefault<String?>(project, "sonatypePassword", null) ?: return@named
 
     repositories {
         withConvention(MavenRepositoryHandlerConvention::class) {
@@ -167,6 +167,11 @@ tasks.named<Upload>("uploadArchives") {
             }
         }
     }
+}
+
+inline fun <reified T> getOrDefault(of: Project, prop: String, def: T): T {
+    if (System.getProperties().containsKey(prop)) return of.property(prop) as T
+    return def
 }
 
 fun resetCompileJava(compileJava: TaskProvider<JavaCompile>) {
