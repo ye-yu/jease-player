@@ -12,7 +12,13 @@ import kotlin.math.round
  * The usage of this class is module specific and is not maintained for
  * other module.
  * */
-class Color4C(private val c1: Int, private val c2: Int, private val c3: Int, private val c4: Int, allowOverflow: Boolean = false) : Number() {
+class Color4C(
+    private val c1: Int,
+    private val c2: Int,
+    private val c3: Int,
+    private val c4: Int,
+    allowOverflow: Boolean = false
+) : Number() {
 
     /**
      * The max value for each channel
@@ -76,7 +82,7 @@ class Color4C(private val c1: Int, private val c2: Int, private val c3: Int, pri
      * Negates the value at each channel
      * */
     private fun negate(): Color4C {
-        return Color4C(c1 * -1, c2 * -1, c3 * -1, c4 * -1,  true)
+        return Color4C(c1 * -1, c2 * -1, c3 * -1, c4 * -1, true)
     }
 
     /**

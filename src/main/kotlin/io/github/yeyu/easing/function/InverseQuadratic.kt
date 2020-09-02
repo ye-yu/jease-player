@@ -7,9 +7,10 @@ package io.github.yeyu.easing.function
  *
  * Range: `[0, 1]`
  * */
-object InverseQuadratic: Function {
+object InverseQuadratic : Function {
 
     private const val tolerance = 0.00000015
+
     /**
      * Domain: `[0, 1]`
      *

@@ -12,7 +12,8 @@ import kotlin.math.round
  * The usage of this class is module specific and is not maintained for
  * other module.
  * */
-class Color3C(private val c1: Int, private val c2: Int, private val c3: Int, allowOverflow: Boolean = false) : Number() {
+class Color3C(private val c1: Int, private val c2: Int, private val c3: Int, allowOverflow: Boolean = false) :
+    Number() {
 
     /**
      * The max value for each channel

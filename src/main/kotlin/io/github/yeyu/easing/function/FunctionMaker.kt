@@ -8,7 +8,7 @@ object FunctionMaker {
      * A Kotlin native utility function to create a custom function on the go
      * */
     fun createFunction(fn: (Double) -> Double): Function {
-        return object: Function {
+        return object : Function {
             override fun f(x: Double): Double = fn(x)
         }
     }
@@ -17,7 +17,7 @@ object FunctionMaker {
      * A Java native utility function to create a custom function on the go
      * */
     fun createFunction(fn: java.util.function.Function<Double, Double>): Function {
-        return object: Function {
+        return object : Function {
             override fun f(x: Double): Double = fn.apply(x)
         }
     }

@@ -1,13 +1,12 @@
 package io.github.yeyu.easing.number
 
-import io.github.yeyu.easing.number.KotlinNumberUtil.minus
 import io.github.yeyu.easing.type.Color3C
 import io.github.yeyu.easing.type.Color4C
 
 /**
  * A Kotlin number utility method to perform calculation
  * for sub-classes of Number.
- * 
+ *
  * The number is casted with the priority of:
  *   - Double
  *   - Float
@@ -16,11 +15,11 @@ import io.github.yeyu.easing.type.Color4C
  *   - Short
  *   - Byte
  *   - Color (if applicable)
- * 
+ *
  * in that particular order.
  * */
 object KotlinNumberUtil {
-    
+
     /**
      * Performs `Number + Number`
      * */
